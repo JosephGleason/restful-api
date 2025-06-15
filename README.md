@@ -1,48 +1,78 @@
-# Task 0: Basics of HTTP/HTTPS
+# Task 1: Consume Data from an API using Command Line Tools (`curl`)
 
-## Differences Between HTTP and HTTPS
+---
 
-HTTP is the HyperText Transfer Protocol, used to send and receive data between clients (like browsers) and servers. It does not encrypt data, meaning anyone on the network can potentially see or tamper with the information being transferred.
+## 1. curl --version
 
-HTTPS (HyperText Transfer Protocol Secure) is the secure version of HTTP. It uses SSL/TLS encryption to protect data in transit, making it unreadable to third parties. It also authenticates the server's identity and ensures integrity.
+**Command:**
+`curl --version`
 
-Main differences:
-- HTTP sends data in plain text; HTTPS encrypts it.
-- HTTP uses port 80; HTTPS uses port 443.
-- HTTPS requires an SSL certificate.
-- HTTPS is used for any site that handles personal, sensitive, or financial data.
+**Output:**
 
-## Structure of an HTTP Request and Response
+- curl 7.81.0 (x86_64-pc-linux-gnu)
+- libcurl/7.81.0 OpenSSL/3.0.2 zlib/1.2.11 brotli/1.0.9 zstd/1.4.8
+- Supports protocols: HTTP, HTTPS, FTP, LDAP, and more
+- Features: IPv6, HTTP2, GSS-API, NTLM, SPNEGO, etc.
 
-Example HTTP Request:
+---
 
-```http
-GET /learning/ssl/why-is-http-not-secure/ HTTP/1.1
-Host: www.cloudflare.com
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
-Accept: text/html,application/xhtml+xml
-Connection: keep-alive
+## 2. GET Request to Fetch a Post
 
-HTTP/1.1 200 OK
-Content-Type: text/html; charset=UTF-8
-Content-Encoding: gzip
-Content-Length: 15678
-Cache-Control: max-age=600
-```
+**Command:**
+`curl https://jsonplaceholder.typicode.com/posts/1`
 
-## Exploring HTTP Methods and Status Codes
+**Output:**
 
-### Common HTTP Methods
+- userId: 1  
+- id: 1  
+- title: *"sunt aut facere repellat provident occaecati excepturi optio reprehenderit"*  
+- body:  
+  > quia et suscipit  
+  > suscipit recusandae consequuntur expedita et cum  
+  > reprehenderit molestiae ut ut quas totam  
+  > nostrum rerum est autem sunt rem eveniet architecto
 
-- **GET** – Retrieves data from the server. Used when loading web pages or requesting information.
-- **POST** – Sends new data to the server. Commonly used in form submissions or when creating new records.
-- **PUT** – Updates an existing resource on the server.
-- **DELETE** – Removes a resource from the server.
+---
 
-### Common HTTP Status Codes
+## 3. GET Headers Only
 
-- **200 OK** – The request was successful.
-- **201 Created** – A new resource was successfully created (after a POST request).
-- **400 Bad Request** – The server could not understand the request due to malformed syntax.
-- **404 Not Found** – The requested resource does not exist.
-- **500 Internal Server Error** – The server encountered an unexpected condition.
+**Command:**
+`curl -I https://jsonplaceholder.typicode.com/posts`
+
+**Output:**
+
+- Status: HTTP/2 200 OK  
+- Date: Sun, 15 Jun 2025 18:49:12 GMT  
+- Content-Type: application/json; charset=utf-8  
+- Cache-Control: max-age=43200  
+- ETag: W/"6b80-Ybsq/K6GwwqrYkAsFxqDXGC7DoM"  
+- Server: cloudflare  
+- X-Powered-By: Express  
+- Rate Limits:  
+  - Limit: 1000  
+  - Remaining: 999  
+  - Reset: 1749682047  
+- Other Headers: Vary, Pragma, Age, Alt-Svc
+
+---
+
+## 4. Simulated POST Request
+
+**Command:**
+`curl -X POST -d "title=foo&body=bar&userId=1" https://jsonplaceholder.typicode.com/posts`
+
+**Output:**
+
+- title: *foo*  
+- body: *bar*  
+- userId: 1  
+- id: 101
+
+---
+
+## Summary
+
+This task demonstrates how to:
+- Check curl installation
+- Use `GET`, `-I`, and `POST` commands with `curl`
+- Understand HTTP headers and JSON responses
